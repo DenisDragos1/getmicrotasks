@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function ViewMicrotaskPage() {
   const { id } = useParams();
@@ -31,6 +32,9 @@ function ViewMicrotaskPage() {
       <p>Titlu: {microtask.titlu}</p>
       <p>Descriere: {microtask.descriere}</p>
       <p>Tara: {microtask.tara}</p>
+      <Link to={`/submisions/${id}`} className="text-blue-500 hover:underline">
+                  Rezolva
+                </Link>
     </div>
   );
 }
