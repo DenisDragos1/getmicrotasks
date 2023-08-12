@@ -1,0 +1,18 @@
+/* Stiluri pentru un footer fixat în partea de jos a paginii */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Clasa pentru stilurile footer-ului */
+  .footer {
+    margin-top: auto;
+  }
+  
