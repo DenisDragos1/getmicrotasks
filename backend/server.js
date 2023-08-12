@@ -49,7 +49,27 @@ app.get('/microtasks',(req,res)=>{
         return res.json(data);
     })
 })
-/*
+
+app.get('/microtasks/:id', (req, res) => {
+  const taskId = req.params.id;
+
+  const sql = "SELECT * FROM microtasks WHERE ID = ?"; // Aici presupun că coloana ID din tabelul microtasks este cea care stochează ID-ul unic al fiecărui task
+  db.query(sql, [taskId], (err, data) => {
+    if (err) {
+      return res.status(500).json({ error: 'Eroare internă a serverului.' });
+    }
+
+    if (data.length === 0) {
+      return res.status(404).json({ error: 'Microtask-ul nu a fost găsit.' });
+    }
+
+    const microtask = data[0]; // Având în vedere că ar trebui să fie doar un singur rezultat cu ID-ul specificat, luăm primul element din array-ul de rezultate
+
+    return res.json(microtask);
+  });
+});
+
+
 app.get('/mymicrotasks', (req, res) => {
   // Verificați dacă utilizatorul este autentificat și obțineți ID-ul sesiunii curente
   const userId = req.session.userId; // Asigurați-vă că aveți numele corect al proprietății din obiectul sesiunii
@@ -63,14 +83,14 @@ app.get('/mymicrotasks', (req, res) => {
     if (err) return res.status(500).json({ error: 'Eroare internă a serverului.' });
     return res.json(data);
   });
-});*/
-app.get('/microtasks',(req,res)=>{
+});
+/*app.get('/microtasks',(req,res)=>{
   const sql="SELECT *FROM microtasks where user_id=@req.session.userId";
   db.query(sql,(err,data)=>{
       if(err) return res.json(err);
       return res.json(data);
   })
-})
+})*/
 
 app.get('/',(req,res)=>{
 
