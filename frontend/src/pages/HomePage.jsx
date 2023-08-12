@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 export default function HomePage() {
   const authenticated = true;
-  return (
+  return ( 
     <div>
     <div
       style={{
