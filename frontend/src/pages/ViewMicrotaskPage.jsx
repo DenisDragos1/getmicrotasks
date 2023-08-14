@@ -32,6 +32,14 @@ function ViewMicrotaskPage() {
       <p>Titlu: {microtask.titlu}</p>
       <p>Descriere: {microtask.descriere}</p>
       <p>Tara: {microtask.tara}</p>
+      <p>Credite pe task: {microtask.credite}</p>
+      <p>Credtie pe microworker : {microtask.credite1}</p>
+      <p>Timp: {microtask.timp}</p>
+      <p>Pozitii: {microtask.pozitii}</p>
+      <p>Pozitii aprobate: {microtask.pozitii_aprobate}</p>
+      <p>Categorie: {microtask.categorie}</p>
+      <p>User id: {microtask.user_id}</p>
+      <p>Aprobata: {microtask.is_approved}</p>
       <Link to={`/submisions/${id}`} className="text-blue-500 hover:underline">
                   Rezolva
                 </Link>

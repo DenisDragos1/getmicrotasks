@@ -4,6 +4,8 @@ const mysql=require("mysql");
 const bodyParser = require("body-parser"); 
 const session = require('express-session');
 const cookieParser=require('cookie-parser');
+const multer = require("multer");
+const path = require('path');
 
 const app=express();
 app.use(cors({
@@ -31,7 +33,7 @@ const db=mysql.createConnection({
     host:"localhost",
     user:'root',
     password:'',
-    database:'getmicrotasks'
+    database:'getmicrotask'
 })
 
 app.get('/users',(req,res)=>{
@@ -162,7 +164,84 @@ app.post('/register', (req, res) => {
       res.redirect("/login");
     }
   });
+
+  /*
+  app.post('/submisions/:microtask_id', (req, res) => {
+    const { microtask_id } = req.params;
+    const { submission_text, submission_images } = req.body;
+    console.log(submission_text);
+    const user_id = req.session.userId;
+    const is_approved=0;
+    // Verificări și validări
   
+    const sql = "INSERT INTO submissions (microtask_id, user_id, submission_text, submission_images, is_approved) VALUES (?, ?, ?, ?, ?)";
+    db.query(sql, [microtask_id, user_id, submission_text, submission_images, is_approved], (err, result) => {
+      if (err) {
+        console.error('Error inserting submission:', err);
+        return res.status(500).json({ error: 'Eroare internă a serverului.' });
+      }
+  
+      return res.json({ message: 'Submision a fost înregistrat cu succes.' });
+    });
+  });*/
+
+/*
+  app.post('/submisions/:microtask_id', (req, res) => {
+    const { microtask_id } = req.params;
+    const { submission_text } = req.body;
+    const submission_images = req.files.submission_images; // Asigură-te că în server, fișierul este preluat corespunzător
+
+    console.log(submission_text);
+    console.log(submission_images); // Afișează fișierul pentru a verifica dacă este primit corect
+
+    const user_id = req.session.userId;
+    const is_approved = 0;
+
+    // Verificări și validări
+
+    const sql = "INSERT INTO submissions (microtask_id, user_id, submission_text, submission_images, is_approved) VALUES (?, ?, ?, ?, ?)";
+    db.query(sql, [microtask_id, user_id, submission_text, submission_images, is_approved], (err, result) => {
+      if (err) {
+        console.error('Error inserting submission:', err);
+        return res.status(500).json({ error: 'Eroare internă a serverului.' });
+      }
+
+      return res.json({ message: 'Submision a fost înregistrat cu succes.' });
+    });
+});*/
+// Configurarea multer pentru încărcarea imaginilor
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'images')); // Imaginile vor fi salvate în folderul "images"
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage });
+
+// Restul codului tău
+
+app.post('/submisions/:microtask_id', upload.single('submission_images'), (req, res) => {
+  const { microtask_id } = req.params;
+  const { submission_text } = req.body;
+  const submission_images = req.file?.filename; // Utilizăm ? pentru a trata cazul în care req.file nu există
+  const user_id = req.session.userId;
+  const is_approved = 0;
+
+  // Verificări și validări
+
+  const sql = "INSERT INTO submissions (microtask_id, user_id, submission_text, submission_images, is_approved) VALUES (?, ?, ?, ?, ?)";
+  db.query(sql, [microtask_id, user_id, submission_text, submission_images, is_approved], (err, result) => {
+    if (err) {
+      console.error('Error inserting submission:', err);
+      return res.status(500).json({ error: 'Eroare internă a serverului.' });
+    }
+
+    return res.json({ message: 'Submision a fost înregistrat cu succes.' });
+  });
+});
+
   app.post("/createmicrotasks", (req, res) => {
     const { titlu, descriere, credite,credite1,timp,categorie, tara } = req.body;
   
