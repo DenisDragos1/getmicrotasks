@@ -113,6 +113,14 @@ const Navbar = ({ authenticated }) => {
                   MyMicrotasks
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/mysubmissions"
+                  className="text-gray-900 dark:text-white hover:underline"
+                >
+                  MySubmissions
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

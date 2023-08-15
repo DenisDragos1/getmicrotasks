@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function MyMicrotasksPage() {
   const [microtasks, setMicrotasks] = useState([]);
@@ -16,6 +17,7 @@ function MyMicrotasksPage() {
         });
     }
   }, [authenticated]);
+  
 
   return (
     <div>
@@ -28,6 +30,7 @@ function MyMicrotasksPage() {
               <th className="px-4 py-2">Titlu</th>
               <th className="px-4 py-2">Descriere</th>
               <th className="px-4 py-2">Tara</th>
+              <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +40,9 @@ function MyMicrotasksPage() {
                 <td className="border px-4 py-2">{microtask.titlu}</td>
                 <td className="border px-4 py-2">{microtask.descriere}</td>
                 <td className="border px-4 py-2">{microtask.tara}</td>
+                <td className="border px-4 py-2">
+                <Link to={`/viewsubmissions/${microtask.ID}`}>Vezi submissions</Link>                </td>
+
               </tr>
             ))}
           </tbody>

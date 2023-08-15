@@ -9,6 +9,8 @@ import MicrotasksPage from './pages/MicrotasksPage'
 import MyMicrotasksPage from './pages/MyMicrotasksPage'
 import ViewMicrotaskPage from './pages/ViewMicrotaskPage'
 import SubmisionPage from './pages/SubmisionPage'
+import MySubmisionPage from './pages/MySubmisionPage'
+import ViewSubmissionsPage from './pages/ViewSubmissionsPage'
 
 function App() {
 
@@ -26,6 +28,9 @@ function App() {
     <Route path='/mymicrotasks' element={<MyMicrotasksPage />}></Route>  
     <Route path="/microtasks/:id" element={<ViewMicrotaskPage />} />
     <Route path="/submisions/:id" element={<SubmisionPage />} />
+    <Route path="/mysubmissions" element={<MySubmisionPage />} />
+    <Route path="/viewsubmissions/:microtaskId" element={<ViewSubmissionsPage/>} />
+
      </Routes>
     </BrowserRouter>
   )

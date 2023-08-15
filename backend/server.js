@@ -27,6 +27,7 @@ app.use(session({
     maxAge:1000*60*60*24
   }
 }));
+app.use('/backend/images', express.static(path.join(__dirname, 'images')));
 
 
 const db=mysql.createConnection({
@@ -35,7 +36,15 @@ const db=mysql.createConnection({
     password:'',
     database:'getmicrotask'
 })
-
+/*
+const db = mysql.createConnection({
+  host: 'fdb1032.awardspace.net',
+  port: 3306,
+  user: '4359767_getmicrotask',
+  password: 'EkHD3EJ50C;.fJ.?',
+  database: '4359767_getmicrotask'
+});
+*/
 app.get('/users',(req,res)=>{
     const sql="SELECT *FROM users";
     db.query(sql,(err,data)=>{
@@ -86,13 +95,6 @@ app.get('/mymicrotasks', (req, res) => {
     return res.json(data);
   });
 });
-/*app.get('/microtasks',(req,res)=>{
-  const sql="SELECT *FROM microtasks where user_id=@req.session.userId";
-  db.query(sql,(err,data)=>{
-      if(err) return res.json(err);
-      return res.json(data);
-  })
-})*/
 
 app.get('/',(req,res)=>{
 
@@ -165,50 +167,6 @@ app.post('/register', (req, res) => {
     }
   });
 
-  /*
-  app.post('/submisions/:microtask_id', (req, res) => {
-    const { microtask_id } = req.params;
-    const { submission_text, submission_images } = req.body;
-    console.log(submission_text);
-    const user_id = req.session.userId;
-    const is_approved=0;
-    // Verificări și validări
-  
-    const sql = "INSERT INTO submissions (microtask_id, user_id, submission_text, submission_images, is_approved) VALUES (?, ?, ?, ?, ?)";
-    db.query(sql, [microtask_id, user_id, submission_text, submission_images, is_approved], (err, result) => {
-      if (err) {
-        console.error('Error inserting submission:', err);
-        return res.status(500).json({ error: 'Eroare internă a serverului.' });
-      }
-  
-      return res.json({ message: 'Submision a fost înregistrat cu succes.' });
-    });
-  });*/
-
-/*
-  app.post('/submisions/:microtask_id', (req, res) => {
-    const { microtask_id } = req.params;
-    const { submission_text } = req.body;
-    const submission_images = req.files.submission_images; // Asigură-te că în server, fișierul este preluat corespunzător
-
-    console.log(submission_text);
-    console.log(submission_images); // Afișează fișierul pentru a verifica dacă este primit corect
-
-    const user_id = req.session.userId;
-    const is_approved = 0;
-
-    // Verificări și validări
-
-    const sql = "INSERT INTO submissions (microtask_id, user_id, submission_text, submission_images, is_approved) VALUES (?, ?, ?, ?, ?)";
-    db.query(sql, [microtask_id, user_id, submission_text, submission_images, is_approved], (err, result) => {
-      if (err) {
-        console.error('Error inserting submission:', err);
-        return res.status(500).json({ error: 'Eroare internă a serverului.' });
-      }
-
-      return res.json({ message: 'Submision a fost înregistrat cu succes.' });
-    });
-});*/
 // Configurarea multer pentru încărcarea imaginilor
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -295,9 +253,35 @@ app.post('/submisions/:microtask_id', upload.single('submission_images'), (req, 
       }
     });
   });
+
+  app.get('/mysubmissions', (req, res) => {
+    const user_id = req.session.userId;
   
-
-
+    const sql = "SELECT * FROM submissions WHERE user_id = ?";
+    db.query(sql, [user_id], (err, results) => {
+      if (err) {
+        console.error('Error fetching submissions:', err);
+        return res.status(500).json({ error: 'Eroare internă a serverului.' });
+      }
+  
+      return res.json({ submissions: results });
+    });
+  });
+  
+  app.get('/viewsubmissions/:microtaskId', (req, res) => {
+    const microtask_id = req.params.microtaskId;
+  
+    const sql = "SELECT * FROM submissions WHERE microtask_id = ?";
+    db.query(sql, [microtask_id], (err, data) => {
+      if (err) {
+        console.error('Error fetching submissions:', err);
+        return res.status(500).json({ error: 'Eroare internă a serverului.' });
+      }
+  
+      return res.json(data);
+    });
+  });
+ 
 app.listen(8081,()=>{
     console.log("listtening on port 8081");
 })
