@@ -52,7 +52,16 @@ function MySubmisionPage() {
                   />
                 )}
               </td>
-              <td className="border px-4 py-2"></td>
+              <td className="border px-4 py-2">
+  {submission.is_approved === 0 ? (
+    <span className="text-yellow-500">Pending</span>
+  ) : submission.is_approved === -1 ? (
+    <span className="text-red-500">Respins</span>
+  ) : (
+    <span className="text-green-500">Acceptat</span>
+  )}
+</td>
+
               <td className="border px-4 py-2">
                 <Link to="/microtasks">View</Link>
               </td>

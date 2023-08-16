@@ -281,6 +281,33 @@ app.post('/submisions/:microtask_id', upload.single('submission_images'), (req, 
       return res.json(data);
     });
   });
+  app.post('/updateSubmissionStatus/:submissionId', (req, res) => {
+    const submissionId = req.params.submissionId;
+    const newStatus = req.body.newStatus;
+  
+    try {
+      // Aici vom efectua actualizarea în baza de date
+      const sql = "UPDATE submissions SET is_approved = ? WHERE ID = ?";
+      db.query(sql, [newStatus, submissionId], (err, result) => {
+        if (err) {
+          console.error('Error updating submission status:', err);
+          return res.status(500).json({ error: 'An error occurred while updating submission status' });
+        }
+  
+        // Verificăm dacă rândurile au fost afectate (actualizate) cu succes
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ error: 'Submission not found' });
+        }
+  
+        res.status(200).json({ message: 'Submission status updated successfully' });
+      });
+    } catch (error) {
+      console.error('Error updating submission status:', error);
+      res.status(500).json({ error: 'An error occurred while updating submission status' });
+    }
+  });
+  
+  
  
 app.listen(8081,()=>{
     console.log("listtening on port 8081");
