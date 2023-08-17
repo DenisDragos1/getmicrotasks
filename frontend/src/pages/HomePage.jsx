@@ -15,7 +15,6 @@ export default function HomePage() {
         minHeight: "100vh",
       }}
     >
-      
       <Navbar authenticated={authenticated} />
       </div>
       {/* Adăugați clasa "footer" pentru a fixa footer-ul în partea de jos */}

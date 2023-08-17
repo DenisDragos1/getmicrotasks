@@ -21,6 +21,9 @@ function MicrotasksPage() {
             <th className="px-4 py-2">Titlu</th>
             <th className="px-4 py-2">Descriere</th>
             <th className="px-4 py-2">Tara</th>
+            <th className="px-4 py-2">Pozitii totale</th>
+            <th className="px-4 py-2">Pozitii aprobate</th>
+            <th className="px-4 py-2">Credite pe task</th>
             <th className="px-4 py-2">Acțiuni</th>
           </tr>
         </thead>
@@ -31,10 +34,15 @@ function MicrotasksPage() {
               <td className="border px-4 py-2">{d.titlu}</td>
               <td className="border px-4 py-2">{d.descriere}</td>
               <td className="border px-4 py-2">{d.tara}</td>
+              <td className="border px-4 py-2">{d.pozitii}</td>
+              <td className="border px-4 py-2">{d.pozitii_aprobate}</td>
+              <td className="border px-4 py-2">{d.credite1}</td>
               <td className="border px-4 py-2">
-                <Link to={`/microtasks/${d.ID}`} className="text-blue-500 hover:underline">
-                  View
+                <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
+                <Link to={`/microtasks/${d.ID}`} className="text-white-500 hover:underline">
+                  Detalii
                 </Link>
+                </button>
               </td>
             </tr>
           ))}

@@ -306,6 +306,55 @@ app.post('/submisions/:microtask_id', upload.single('submission_images'), (req, 
       res.status(500).json({ error: 'An error occurred while updating submission status' });
     }
   });
+/*
+  app.post('respinge/:id',(req,res)=>{
+    const submissionId = req.params.submissionId;
+    const motiv_respingere=req.body;
+    const is_approved=-1;
+    try{
+      const sql = "UPDATE submissions SET motiv_respingere = ? WHERE ID = ?";
+      const sql1= "UPDATE submissions SET is_approved = ? WHERE ID = ?";
+      db.query(sql,[motiv_respingere,submissionId],(err,result)=>{
+        if(err)
+        {
+          console.error('Eroare la adugarea motivului de respingere',err);
+          return res.status(500).json({ error: 'An error occurred while updating submission status' });
+        }
+        if(result.affectedRows==0)
+        {
+          return res.status(404).json({error: 'Submission not found'})
+        }
+        res.status(200).json({ message: 'Submission status updated successfully' });
+      })
+    }
+    catch(error){
+      console.error('Error updating submission status:', error);
+      res.status(500).json({ error: 'An error occurred while updating submission status' });
+    }
+  })*/
+  app.post('/respinge/:submissionId', (req, res) => {
+    const submissionId = req.params.submissionId;
+    const { motiv_respingere } = req.body;
+    const is_approved = -1;
+    
+    try {
+      const sql = "UPDATE submissions SET motiv_respingere = ?, is_approved = ? WHERE ID = ?";
+      db.query(sql, [motiv_respingere, is_approved, submissionId], (err, result) => {
+        if (err) {
+          console.error('Eroare la adăugarea motivului de respingere', err);
+          return res.status(500).json({ error: 'An error occurred while updating submission status' });
+        }
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ error: 'Submission not found' });
+        }
+        res.status(200).json({ message: 'Submission status updated successfully' });
+      });
+    } catch (error) {
+      console.error('Error updating submission status:', error);
+      res.status(500).json({ error: 'An error occurred while updating submission status' });
+    }
+  });
+  
   
   
  

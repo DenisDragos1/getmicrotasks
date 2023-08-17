@@ -11,6 +11,7 @@ import ViewMicrotaskPage from './pages/ViewMicrotaskPage'
 import SubmisionPage from './pages/SubmisionPage'
 import MySubmisionPage from './pages/MySubmisionPage'
 import ViewSubmissionsPage from './pages/ViewSubmissionsPage'
+import RespingereSubmisionPage from './pages/RespingereSubmisionPage'
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
     <Route path="/submisions/:id" element={<SubmisionPage />} />
     <Route path="/mysubmissions" element={<MySubmisionPage />} />
     <Route path="/viewsubmissions/:microtaskId" element={<ViewSubmissionsPage/>} />
+    <Route path="/respinge/:submissionId" element={<RespingereSubmisionPage/>} />
 
      </Routes>
     </BrowserRouter>
