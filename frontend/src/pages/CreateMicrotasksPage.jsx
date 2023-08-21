@@ -33,6 +33,7 @@ function CreateMicrotasksPage() {
     const totalPozitii = totalCredite / creditePerPozitie;
     return isNaN(totalPozitii) ? '' : Math.floor(totalPozitii);
   };
+  const [error, setError] = useState('');
 
 
   const handleSubmit = (event) => {
@@ -47,6 +48,11 @@ function CreateMicrotasksPage() {
         }
       })
       .catch((err) => {
+        if (err.response?.status === 400) {
+          setError('Nu aveți suficiente credite pentru a adăuga acest microtask.');
+        } else {
+          setError('Eroare la adăugarea microtask-ului.');
+        }
         console.error(err);
       });
   };
@@ -182,7 +188,7 @@ function CreateMicrotasksPage() {
               />
             </div> */}
 
-              <div>
+              {/* <div>
               <label htmlFor="pozitii" className="sr-only">
                 Numar potii pe task {values.pozitii}
               </label>
@@ -197,7 +203,7 @@ function CreateMicrotasksPage() {
                 value={values.pozitii}
                 onChange={handleChange}
               />
-            </div> 
+            </div>  */}
 
             <div>
               <label htmlFor="tara" className="sr-only">
@@ -225,6 +231,11 @@ function CreateMicrotasksPage() {
               Adăugare Microtask
             </button>
           </div>
+          {error && (
+              <div className="text-red-500 mt-2">
+                <p>{error}</p>
+              </div>
+            )}
         </form>
       </div>
     </div>

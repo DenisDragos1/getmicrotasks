@@ -29,7 +29,7 @@ const navigate=useNavigate();
 
   return (
     <div className="p-8">
-      <h2 className="text-2xl font-semibold mb-4">Respingere Submisie</h2>
+      <h2 className="text-2xl font-semibold mb-4">De ce respingi aceast submission?</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="motivRespingere" className="block text-sm font-medium text-gray-700">

@@ -63,7 +63,11 @@ function MySubmisionPage() {
 </td>
 
               <td className="border px-4 py-2">
-                <Link to="/microtasks">View</Link>
+              <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
+  <Link to={`/mysubmissions/${submission.ID}`}>
+    Vezi detalii
+    </Link>
+  </button>
               </td>
               
             </tr>

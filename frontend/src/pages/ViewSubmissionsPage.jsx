@@ -113,11 +113,16 @@ function ViewSubmissionsPage() {
     Respinge
     </Link>
   </button> */}
+    <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md">
+
   <Link to={`/respinge/${submission.ID}`} className="text-white-500 hover:underline">
     Respinge
     </Link>
+    </button>
   <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
+  <Link to={`/submissions/${submission.ID}`}>
     Vezi detalii
+    </Link>
   </button>
 </td>
 
