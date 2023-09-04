@@ -14,6 +14,7 @@ import ViewSubmissionsPage from './pages/ViewSubmissionsPage'
 import RespingereSubmisionPage from './pages/RespingereSubmisionPage'
 import DetailsSubmisionPage from './pages/DetailsSubmisionPage'
 import DetailsMySubmissionPage from './pages/DetailsMySubmissionPage'
+import Sidebar from './components/Sidebar'
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
     <Route path="/respinge/:submissionId" element={<RespingereSubmisionPage/>} />
     <Route path="/submissions/:id" element={<DetailsSubmisionPage />} />
     <Route path="/mysubmissions/:id" element={<DetailsMySubmissionPage />} />
+    <Route path='/sidebar' element={<Sidebar />}></Route>
 
      </Routes>
     </BrowserRouter>

@@ -69,9 +69,9 @@ function CreateMicrotasksPage() {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="titlu" className="sr-only">
-                Titlu:
+            <div className="px-6 pt-4 pb-6">
+            <label htmlFor="titlu" className="block text-sm font-medium text-gray-700">
+                  Titlu:
               </label>
               <input
                 id="titlu"
@@ -85,8 +85,8 @@ function CreateMicrotasksPage() {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <label htmlFor="categorie" className="sr-only">
+            <div className="px-6 pt-4 pb-6">
+              <label htmlFor="categorie" className="block text-sm font-medium text-gray-700">
                 Categorie:
               </label>
               <input
@@ -101,8 +101,8 @@ function CreateMicrotasksPage() {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <label htmlFor="descriere" className="sr-only">
+            <div className="px-6 pt-4 pb-6">
+              <label htmlFor="descriere" className="block text-sm font-medium text-gray-700">
                 Descriere:
               </label>
               <textarea
@@ -118,8 +118,8 @@ function CreateMicrotasksPage() {
               />
             </div>
            
-            <div>
-              <label htmlFor="credite" className="sr-only">
+            <div className="px-6 pt-4 pb-6">
+              <label htmlFor="credite" className="block text-sm font-medium text-gray-700">
                 Numar total de credite pe task:
               </label>
               <input
@@ -134,8 +134,8 @@ function CreateMicrotasksPage() {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <label htmlFor="credite1" className="sr-only">
+            <div className="px-6 pt-4 pb-6">
+              <label htmlFor="credite1" className="block text-sm font-medium text-gray-700">
                 Crtedit alocat pe pozitie:
               </label>
               <input
@@ -150,8 +150,8 @@ function CreateMicrotasksPage() {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <label htmlFor="timp" className="sr-only">
+            <div className="px-6 pt-4 pb-6">
+              <label htmlFor="timp" className="block text-sm font-medium text-gray-700">
                 Timp completare task:
               </label>
               <input
@@ -171,42 +171,10 @@ function CreateMicrotasksPage() {
          Număr total de poziții: {calculateTotalPozitii(values.credite, values.credite1)}
        </div>
         )}
-            {/* <div>
-              <label htmlFor="pozitii" className="sr-only">
-                Numar potii pe task
-              </label>
-              <input
-                id="pozitii"
-                name="pozitii"
-                type="number"
-                autoComplete="off"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="pozitii"
-                value={values.pozitii}
-                onChange={handleChange}
-              />
-            </div> */}
+            
 
-              {/* <div>
-              <label htmlFor="pozitii" className="sr-only">
-                Numar potii pe task {values.pozitii}
-              </label>
-              <input
-                id="pozitii"
-                name="pozitii"
-                type="number"
-                autoComplete="off"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="pozitii"
-                value={values.pozitii}
-                onChange={handleChange}
-              />
-            </div>  */}
-
-            <div>
-              <label htmlFor="tara" className="sr-only">
+            <div className="px-6 pt-4 pb-6">
+              <label htmlFor="tara" className="block text-sm font-medium text-gray-700">
                 Țară:
               </label>
               <input

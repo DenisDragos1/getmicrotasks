@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import { Link, useNavigate } from 'react-router-dom';
+// import axios from 'axios';
 
 function DetailsMySubmissionPage() {
     const { id } = useParams();
     const [submission, setSubmission] = useState(null);
-    const navigate = useNavigate();
+  //  const navigate = useNavigate();
   
     useEffect(() => {
       fetch(`http://localhost:8081/submissions/${id}`)
@@ -49,7 +49,7 @@ function DetailsMySubmissionPage() {
             className="max-w-full h-auto mt-4"
           />
         )}
-        <div className="flex space-x-4">
+        {/* <div className="flex space-x-4">
           <button
             onClick={() => {
               axios
@@ -75,7 +75,7 @@ function DetailsMySubmissionPage() {
           >
             <span>Respinge</span>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   )

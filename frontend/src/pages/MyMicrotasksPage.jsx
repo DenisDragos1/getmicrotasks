@@ -41,8 +41,10 @@ function MyMicrotasksPage() {
                 <td className="border px-4 py-2">{microtask.descriere}</td>
                 <td className="border px-4 py-2">{microtask.tara}</td>
                 <td className="border px-4 py-2">
-                <Link to={`/viewsubmissions/${microtask.ID}`}>Vezi submissions</Link>                </td>
-
+                  <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
+                <Link to={`/viewsubmissions/${microtask.ID}`}>Vezi submissions</Link>               
+                </button>
+                </td>
               </tr>
             ))}
           </tbody>

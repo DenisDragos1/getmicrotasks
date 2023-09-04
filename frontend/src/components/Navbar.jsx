@@ -94,7 +94,7 @@ const Navbar = ({ authenticated }) => {
                   to="/createmicrotasks"
                   className="text-gray-900 dark:text-white hover:underline"
                 >
-                  Adauaga MicroTask
+                  Adauaga MicroTasks
                 </Link>
               </li>
               <li>
@@ -125,6 +125,7 @@ const Navbar = ({ authenticated }) => {
           </div>
         </div>
       </nav>
+      
     </>
   );
 };
