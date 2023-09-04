@@ -53,6 +53,28 @@ app.get('/users',(req,res)=>{
     })
 })
 
+// Actualizarea valorii "expirat" în baza de date atunci când timpul expiră
+app.post('/updateExpire/:submissionId', (req, res) => {
+  const submissionId = req.params.submissionId;
+  console.log(submissionId);
+  // Verificați dacă utilizatorul este autentificat și dacă timpul a expirat (a se adapta la logica dvs.)
+  if (!req.session.userId || !isTimeExpired(submissionId)) {
+    return res.status(403).json({ error: 'Nu sunteți autorizat să efectuați această acțiune.' });
+  }
+
+  // Actualizați valoarea "expirat" în baza de date cu req.session.userId
+  const sql = 'UPDATE microtasks SET expirat = ? WHERE ID = ?';
+  db.query(sql, [req.session.userId, submissionId], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Eroare internă a serverului' });
+    }
+    return res.status(200).json({ message: 'Actualizare reușită' });
+  });
+});
+
+
+
 app.get('/microtasks',(req,res)=>{
     const sql="SELECT *FROM microtasks";
     db.query(sql,(err,data)=>{
@@ -296,7 +318,11 @@ app.post('/submisions/:microtask_id', upload.single('submission_images'), (req, 
   });
   
 
-  
+  // Ruta pentru a obține ID-ul utilizatorului curent
+app.get('/getUserId', (req, res) => {
+  const userId = req.session.userId;
+  res.json({ userId });
+});
   app.get("/getUsername", (req, res) => {
     // Verificați dacă sesiunea a fost complet actualizată
     req.session.reload((err) => {
