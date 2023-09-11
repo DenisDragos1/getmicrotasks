@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 function ViewMicrotaskPage() {
   const { id } = useParams();
@@ -24,8 +25,10 @@ function ViewMicrotaskPage() {
   if (!microtask) {
     return <p>Error loading microtask.</p>;
   }
-
+const authenticated=true;
   return (
+    <div>
+    <Navbar authenticated={authenticated}/>
     <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">View Microtask</h2>
       <p>ID: {microtask.ID}</p>
@@ -43,6 +46,7 @@ function ViewMicrotaskPage() {
       <Link to={`/submisions/${id}`} className="text-blue-500 hover:underline">
                   Rezolva
                 </Link>
+    </div>
     </div>
   );
 }

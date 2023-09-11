@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import Navbar from '../components/Navbar';
 function MicrotasksPage() {
   const [data, setData] = useState([]);
 
@@ -10,8 +10,10 @@ function MicrotasksPage() {
       .then(data => setData(data))
       .catch(err => console.log(err));
   }, []);
-
+const authenticated=true;
   return (
+    <div>
+      <Navbar authenticated={authenticated}/>
     <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">Microtasks</h2>
       <table className="w-full table-auto border">
@@ -49,7 +51,9 @@ function MicrotasksPage() {
         </tbody>
       </table>
     </div>
+    </div>
   );
+ 
 }
 
 export default MicrotasksPage;

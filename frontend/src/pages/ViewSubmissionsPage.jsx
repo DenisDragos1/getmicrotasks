@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams,Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 function ViewSubmissionsPage() {
   const { microtaskId } = useParams();
@@ -15,8 +16,10 @@ function ViewSubmissionsPage() {
         console.error(error);
       });
   }, [microtaskId]);
-
+const authenticated=true;
   return (
+    <div>
+    <Navbar authenticated={authenticated}/>
     <div className='p-4'>
       <h2 className="text-2xl font-semibold mb-4">Submissions for Microtask {microtaskId}</h2>
       <div className="overflow-x-auto">
@@ -133,6 +136,7 @@ function ViewSubmissionsPage() {
         </tbody>
       </table>
       </div>
+    </div>
     </div>
   );
 }

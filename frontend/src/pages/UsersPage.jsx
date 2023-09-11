@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import Navbar from '../components/Navbar';
 
 function UsersPage() {
   const [data,setData]=useState([])
@@ -9,8 +9,10 @@ function UsersPage() {
   .then(data=>setData(data)) 
   .catch(err=>console.log(err));
 },[]);
-
+const authenticated=true;
     return (
+      <div>
+        <Navbar authenticated={authenticated}/>
       <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">Tabel utilizatori</h2>
       <table className="w-full table-auto border">
@@ -33,6 +35,7 @@ function UsersPage() {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   )
 }

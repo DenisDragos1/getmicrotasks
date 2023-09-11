@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // import { Link, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 function DetailsMySubmissionPage() {
     const { id } = useParams();
@@ -26,8 +27,10 @@ function DetailsMySubmissionPage() {
     if (!submission) {
       return <p>Error loading microtask.</p>;
     }
+    const authenticated = true;
   return (
-    
+    <div>
+      <Navbar authenticated={authenticated}/>
          <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 space-y-4">
         <h2 className="text-2xl font-semibold mb-4">Detalii despre submission</h2>
@@ -77,6 +80,7 @@ function DetailsMySubmissionPage() {
           </Link>
         </div> */}
       </div>
+    </div>
     </div>
   )
 }

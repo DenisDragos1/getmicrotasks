@@ -74,14 +74,38 @@ app.post('/updateExpire/:submissionId', (req, res) => {
 });
 
 
-
+/*
 app.get('/microtasks',(req,res)=>{
     const sql="SELECT *FROM microtasks";
     db.query(sql,(err,data)=>{
         if(err) return res.json(err);
         return res.json(data);
     })
-})
+})*/
+app.get('/microtasks', (req, res) => {
+  // Obțineți ID-ul utilizatorului conectat din sesiune (asumați că acesta este stocat în req.session.userId)
+  const userId = req.session.userId;
+  console.log(userId);
+  // Interogare pentru a obține toate microtask-urile disponibile și ne-finalizate de către utilizatorul curent
+  const sql = `
+    SELECT *
+    FROM microtasks
+    WHERE ID NOT IN (
+      SELECT microtask_id
+      FROM submissions
+      WHERE user_id = ? AND (expirat = 0 OR expirat IS NULL)
+    )
+  `;
+
+  db.query(sql, [userId], (err, data) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json(data);
+  });
+});
+
+
 
 app.get('/microtasks/:id', (req, res) => {
   const taskId = req.params.id;
@@ -127,7 +151,7 @@ app.get('/submissions/:id', (req, res) => {
 app.get('/mymicrotasks', (req, res) => {
   // Verificați dacă utilizatorul este autentificat și obțineți ID-ul sesiunii curente
   const userId = req.session.userId; // Asigurați-vă că aveți numele corect al proprietății din obiectul sesiunii
-
+  console.log(userId);
   if (!userId) {
     return res.status(401).json({ error: 'Utilizatorul nu este autentificat.' });
   }
@@ -143,7 +167,7 @@ app.get('/',(req,res)=>{
 
     return res.json("backend side");
 })
-
+/*
 app.post('/register', (req, res) => {
     const { nume, email, parola,tara } = req.body;
   
@@ -158,7 +182,74 @@ app.post('/register', (req, res) => {
         res.status(200).json({ message: 'Înregistrare reușită.' });
       }
     });
-  });
+  });*/
+  app.post('/register', (req, res) => {
+    const { nume, email, parola, tara } = req.body;
+    function generateUniqueToken() {
+      // Aici poți genera un token unic, de exemplu folosind librării precum uuid sau crypto
+      // Exemplu cu uuid:
+      const { v4: uuidv4 } = require('uuid');
+      return uuidv4();
+    }
+    
+    // Generarea unui token unic pentru confirmarea adresei de e-mail
+    const confirmationToken = generateUniqueToken(); // Implementează această funcție
+
+    // Exemplu de query pentru inserarea datelor în baza de date
+    const sql = 'INSERT INTO users (nume, email, parola, tara, confirmationToken) VALUES (?, ?, ?, ?, ?)';
+    db.query(sql, [nume, email, parola, tara, confirmationToken], (err, result) => {
+        if (err) {
+            console.error('Eroare la inserarea datelor în baza de date:', err);
+            res.status(500).json({ message: 'Eroare la înregistrare.' });
+        } else {
+            console.log('Utilizatorul a fost înregistrat cu succes!');
+
+            // Trimite e-mailul de confirmare
+            sendConfirmationEmail(email, confirmationToken); // Implementează această funcție
+
+            res.status(200).json({ message: 'Înregistrare reușită.' });
+        }
+    });
+});
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'wealthwisetips@gmail.com',
+        pass: 'Seat.zetor1#'
+    }
+});
+
+function sendConfirmationEmail(email, token) {
+    const mailOptions = {
+        from: 'wealthwisetips@gmail.com',
+        to: email,
+        subject: 'Confirmare adresă de e-mail',
+        html: `<p>Apasă <a href="http://localhost:3000/confirm/${token}">aici</a> pentru a-ți confirma adresa de e-mail.</p>`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.error(error);
+        }
+        console.log('E-mailul de confirmare a fost trimis cu succes:', info.response);
+    });
+}
+app.get('/confirm/:token', (req, res) => {
+  const token = req.params.token;
+
+  // Găsește utilizatorul cu token-ul dat în baza de date
+  // Dacă găsești un utilizator cu acest token, activează contul
+
+  // Exemplu:
+  // Actualizează starea contului și token-ul în baza de date
+  // Resetează token-ul sau șterge-l, pentru a împiedica utilizarea ulterioară
+
+  // Redirecționează către o pagină de succes
+  res.redirect('/account-activated');
+});
+
 
   app.post("/login", (req, res) => {
     const { email, parola } = req.body;

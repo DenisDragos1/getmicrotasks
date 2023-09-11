@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import Navbar from '../components/Navbar';
 function MyMicrotasksPage() {
   const [microtasks, setMicrotasks] = useState([]);
   const authenticated = true; // Modificați această valoare în funcție de starea autentificării utilizatorului
@@ -18,8 +18,9 @@ function MyMicrotasksPage() {
     }
   }, [authenticated]);
   
-
   return (
+    <div>
+    <Navbar authenticated={authenticated}/>
     <div>
       <h2 className="text-2xl font-semibold mb-4">Microtasks</h2>
       {authenticated ? (
@@ -53,7 +54,9 @@ function MyMicrotasksPage() {
         <p>Utilizatorul nu este autentificat.</p>
       )}
     </div>
+   </div>
   );
+  
 }
 
 export default MyMicrotasksPage;

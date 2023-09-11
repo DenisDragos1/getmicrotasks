@@ -1,6 +1,7 @@
 import  { useState } from 'react';
 import axios from 'axios';
 import { useParams ,useNavigate} from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 function RespingereSubmisionPage() {
     const { submissionId } = useParams();
@@ -26,8 +27,10 @@ const navigate=useNavigate();
       console.error(error);
     }
   };
-
+const authenticated=true;
   return (
+    <div>
+    <Navbar authenticated={authenticated}/>
     <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">De ce respingi aceast submission?</h2>
       <form onSubmit={handleSubmit}>
@@ -59,6 +62,7 @@ const navigate=useNavigate();
           </div>
         )}
       </form>
+    </div>
     </div>
   );
 }

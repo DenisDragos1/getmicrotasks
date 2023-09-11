@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import Navbar from '../components/Navbar';
 function MySubmisionPage() {
   const [submissions, setSubmissions] = useState([]);
 
@@ -20,8 +20,10 @@ function MySubmisionPage() {
 
     fetchSubmissions();
   }, []);
-
+const authenticated=true;
   return (
+    <div>
+    <Navbar authenticated={authenticated}/>
     <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">My Submissions</h2>
       <table className="w-full table-auto border">
@@ -74,6 +76,7 @@ function MySubmisionPage() {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 }

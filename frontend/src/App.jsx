@@ -15,7 +15,7 @@ import RespingereSubmisionPage from './pages/RespingereSubmisionPage'
 import DetailsSubmisionPage from './pages/DetailsSubmisionPage'
 import DetailsMySubmissionPage from './pages/DetailsMySubmissionPage'
 import Sidebar from './components/Sidebar'
-
+import ProfilePage from './pages/ProfilePage'
 function App() {
 
   return (
@@ -24,6 +24,7 @@ function App() {
     <Routes>
       
     <Route path='/' element={<HomePage />}></Route>
+    <Route path='/profile' element={<ProfilePage />}></Route>
     <Route path='/users' element={<UsersPage />}></Route>
     <Route path='/login' element={<LoginPage />}></Route>
     <Route path='/register' element={<RegisterPage />}></Route>

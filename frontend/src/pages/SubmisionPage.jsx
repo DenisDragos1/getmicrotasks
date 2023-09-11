@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 function SubmisionPage() {
   const { id } = useParams();
@@ -109,8 +110,10 @@ function SubmisionPage() {
       console.error(error);
     }
   };
-
+const authenticated=true;
   return (
+    <div>
+    <Navbar authenticated={authenticated}/>
     <div className="p-8">
       {microtaskTime && (
         <div className="mb-4">
@@ -143,6 +146,7 @@ function SubmisionPage() {
       >
         Submit
       </button>
+    </div>
     </div>
   );
 }
