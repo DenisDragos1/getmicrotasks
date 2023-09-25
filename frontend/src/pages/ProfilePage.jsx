@@ -1,15 +1,29 @@
-import Navbar from "../components/Navbar"
+import { useState } from "react";
+import Navbar from "../components/Navbar";
+import Modal from "../Modal/Modal";
 
-const authenticated=true;
 function ProfilePage() {
+  const authenticated = true;
+  const [modalOpen, setModalOpen] = useState(false);
+
+ 
+
   return (
     <div>
-    <Navbar authenticated={authenticated}/>
-    <div>ProfilePage
+      <Navbar authenticated={authenticated} />
+      <div>ProfilePage</div>
+      <button
+        className="openModalBtn"
+        onClick={() => {
+          setModalOpen(true);
+        }}
+      >
+        Open
+      </button>
 
+      {modalOpen && <Modal setOpenModal={setModalOpen} />}
     </div>
-    </div>
-  )
+  );
 }
 
-export default ProfilePage
+export default ProfilePage;

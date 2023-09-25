@@ -9,6 +9,8 @@ function RegisterPage() {
     email: "",
     parola: "",
     tara: "",
+    invitationCode:"",
+
   });
   const [error, setError] = useState("");
   const countries = [
@@ -33,7 +35,7 @@ function RegisterPage() {
     if (userData.parola !== userData.confirmParola) {
       setError("Parolele nu coincid.");
       return;
-  }
+    }
     try {
       const response = await fetch("http://localhost:8081/register", {
         method: "POST",
@@ -45,6 +47,7 @@ function RegisterPage() {
           parola: userData.parola,
           email: userData.email,
           tara: userData.tara.value,
+          invitationCode: userData.invitationCode,
         }),
       });
 
@@ -150,6 +153,22 @@ function RegisterPage() {
                 onChange={handleChange}
               />
             </div>
+            <div>
+              <label htmlFor="invitationCode" className="block text-sm font-medium text-gray-700">
+                Cod de invitație (opțional):
+              </label>
+              <input
+                id="invitationCode"
+                name="invitationCode"
+                type="text"
+                autoComplete="off"
+                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Cod de invitație"
+                value={userData.invitationCode}
+                onChange={handleChange}
+              />
+            </div>
+
 
             <div>
               <button
@@ -191,20 +210,20 @@ function RegisterPage() {
         </div>
       )} */}
       {successModalOpen && (
-    <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur backdrop-opacity-80">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur backdrop-opacity-80">
+          <div className="bg-white p-6 rounded-lg shadow-md">
             <p className="text-lg font-semibold mb-4">
-                Utilizator înregistrat cu succes! Accesează linkul din email pentru a-ți activa contul.
+              Utilizator înregistrat cu succes! Accesează linkul din email pentru a-ți activa contul.
             </p>
             <button
-                onClick={handleCloseModal}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={handleCloseModal}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-                OK
+              OK
             </button>
+          </div>
         </div>
-    </div>
-)}
+      )}
       <Footer />
 
     </div>

@@ -183,7 +183,7 @@ app.post('/register', (req, res) => {
       }
     });
   });*/
-  app.post('/register', (req, res) => {
+  /*app.post('/register', (req, res) => {
     const { nume, email, parola, tara } = req.body;
     function generateUniqueToken() {
       // Aici poți genera un token unic, de exemplu folosind librării precum uuid sau crypto
@@ -210,7 +210,110 @@ app.post('/register', (req, res) => {
             res.status(200).json({ message: 'Înregistrare reușită.' });
         }
     });
+});*/
+/*app.post('/register', (req, res) => {
+  const { nume, email, parola, tara, invitationCode } = req.body;
+
+  function generateUniqueToken() {
+    const { v4: uuidv4 } = require('uuid');
+    return uuidv4();
+  }
+
+  const confirmationToken = generateUniqueToken();
+  let bonusCredits = 0;
+
+  if (invitationCode) {
+      // Verifică dacă codul de invitație este valid și obține bonusul de credite
+      const sqlCheckCode = 'SELECT credite FROM users WHERE invitationCode = ?';
+      db.query(sqlCheckCode, [invitationCode], (err, rows) => {
+          if (!err && rows.length > 0) {
+              // Dacă codul de invitație este găsit și valid, adaugă creditele bonus
+              bonusCredits = 100;
+              const invitedUserId = rows[0].ID;
+              const sqlUpdateInviterCredits = 'UPDATE users SET credite = credite + ? WHERE ID = ?';
+              db.query(sqlUpdateInviterCredits, [100, invitedUserId], (err, result) => {
+                  if (err) {
+                      console.error('Eroare la actualizarea creditele invitatului:', err);
+                  }
+              });
+          }
+          insertUser();
+      });
+  } else {
+      insertUser();
+  }
+
+  function insertUser() {
+      const sql = 'INSERT INTO users (nume, email, parola, tara, confirmationToken, invitationCode, credite) VALUES (?, ?, ?, ?, ?, ?, ?)';
+      db.query(sql, [nume, email, parola, tara, confirmationToken, invitationCode, 100 + bonusCredits], (err, result) => {
+          if (err) {
+              console.error('Eroare la inserarea datelor în baza de date:', err);
+              res.status(500).json({ message: 'Eroare la înregistrare.' });
+          } else {
+              console.log('Utilizatorul a fost înregistrat cu succes!');
+              sendConfirmationEmail(email, confirmationToken);
+              res.status(200).json({ message: 'Înregistrare reușită.', bonusCredits });
+          }
+      });
+  }
+});*/
+app.post('/register', (req, res) => {
+  const { nume, email, parola, tara, invitationCode } = req.body;
+
+  function generateUniqueCode() {
+      const code = Math.random().toString(36).substring(2, 12);
+      return code;
+  }
+
+  const uniqueCode = generateUniqueCode();
+  let bonusCredits = 0;
+
+  if (invitationCode) {
+      const sqlCheckCode = 'SELECT credite, ID FROM users WHERE invitationCode = ?';
+      db.query(sqlCheckCode, [invitationCode], (err, rows) => {
+          if (!err && rows.length > 0) {
+              bonusCredits = 100;
+              const invitedUserId = rows[0].ID;
+
+              const sqlUpdateInvitedCredits = 'UPDATE users SET credite = credite + ? WHERE ID = ?';
+              db.query(sqlUpdateInvitedCredits, [100, invitedUserId], (err, result) => {
+                  if (err) {
+                      console.error('Eroare la actualizarea creditele invitatului:', err);
+                  }
+              });
+
+              // Actualizează creditele celui care a dat codul
+              const sqlUpdateInviterCredits = 'UPDATE users SET credite = credite + ? WHERE invitationCode = ?';
+              db.query(sqlUpdateInviterCredits, [100, invitationCode], (err, result) => {
+                  if (err) {
+                      console.error('Eroare la actualizarea creditele celui care a dat codul:', err);
+                  }
+              });
+          }
+          insertUser();
+      });
+  } else {
+      insertUser();
+  }
+
+  function insertUser() {
+      const sql = 'INSERT INTO users (nume, email, parola, tara, invitationCode, credite) VALUES (?, ?, ?, ?, ?, ?)';
+      db.query(sql, [nume, email, parola, tara, uniqueCode, 100 + bonusCredits], (err, result) => {
+          if (err) {
+              console.error('Eroare la inserarea datelor în baza de date:', err);
+              res.status(500).json({ message: 'Eroare la înregistrare.' });
+          } else {
+              console.log('Utilizatorul a fost înregistrat cu succes!');
+              res.status(200).json({ message: 'Înregistrare reușită.', bonusCredits });
+          }
+      });
+  }
 });
+
+
+
+
+
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams,Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import AcceptSubmissionModal from '../Modal/AcceptSubmissionModal';
 
 function ViewSubmissionsPage() {
   const { microtaskId } = useParams();
@@ -17,6 +18,7 @@ function ViewSubmissionsPage() {
       });
   }, [microtaskId]);
 const authenticated=true;
+const [modalOpen, setModalOpen] = useState(false);
   return (
     <div>
     <Navbar authenticated={authenticated}/>
@@ -89,11 +91,14 @@ const authenticated=true;
         .catch((error) => {
           console.error('Error updating submission status:', error);
         });
+        setModalOpen(true);
     }}
+   
     className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
   >
     Accepta
   </button>
+  {modalOpen && <AcceptSubmissionModal setOpenModal={setModalOpen} />}
   {/* <button
     onClick={() => {
       axios.post(`http://localhost:8081/updateSubmissionStatus/${submission.ID}`, { newStatus: -1 }, { withCredentials: true })
@@ -123,7 +128,7 @@ const authenticated=true;
     </Link>
     </button>
   <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
-  <Link to={`/respinge/${submission.ID}`}>
+  <Link to={`/submissions/${submission.ID}`}>
     Vezi detalii
     </Link>
   </button>
