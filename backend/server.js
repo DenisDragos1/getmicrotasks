@@ -74,14 +74,6 @@ app.post('/updateExpire/:submissionId', (req, res) => {
 });
 
 
-/*
-app.get('/microtasks',(req,res)=>{
-    const sql="SELECT *FROM microtasks";
-    db.query(sql,(err,data)=>{
-        if(err) return res.json(err);
-        return res.json(data);
-    })
-})*/
 app.get('/microtasks', (req, res) => {
   // Obțineți ID-ul utilizatorului conectat din sesiune (asumați că acesta este stocat în req.session.userId)
   const userId = req.session.userId;
@@ -167,96 +159,7 @@ app.get('/',(req,res)=>{
 
     return res.json("backend side");
 })
-/*
-app.post('/register', (req, res) => {
-    const { nume, email, parola,tara } = req.body;
-  
-    // Exemplu de query pentru inserarea datelor în baza de date
-    const sql = 'INSERT INTO users (nume, email, parola,tara) VALUES (?, ?, ?,?)';
-    db.query(sql, [nume, email, parola,tara], (err, result) => {
-      if (err) {
-        console.error('Eroare la inserarea datelor în baza de date:', err);
-        res.status(500).json({ message: 'Eroare la înregistrare.' });
-      } else {
-        console.log('Utilizatorul a fost înregistrat cu succes!');
-        res.status(200).json({ message: 'Înregistrare reușită.' });
-      }
-    });
-  });*/
-  /*app.post('/register', (req, res) => {
-    const { nume, email, parola, tara } = req.body;
-    function generateUniqueToken() {
-      // Aici poți genera un token unic, de exemplu folosind librării precum uuid sau crypto
-      // Exemplu cu uuid:
-      const { v4: uuidv4 } = require('uuid');
-      return uuidv4();
-    }
-    
-    // Generarea unui token unic pentru confirmarea adresei de e-mail
-    const confirmationToken = generateUniqueToken(); // Implementează această funcție
 
-    // Exemplu de query pentru inserarea datelor în baza de date
-    const sql = 'INSERT INTO users (nume, email, parola, tara, confirmationToken) VALUES (?, ?, ?, ?, ?)';
-    db.query(sql, [nume, email, parola, tara, confirmationToken], (err, result) => {
-        if (err) {
-            console.error('Eroare la inserarea datelor în baza de date:', err);
-            res.status(500).json({ message: 'Eroare la înregistrare.' });
-        } else {
-            console.log('Utilizatorul a fost înregistrat cu succes!');
-
-            // Trimite e-mailul de confirmare
-            sendConfirmationEmail(email, confirmationToken); // Implementează această funcție
-
-            res.status(200).json({ message: 'Înregistrare reușită.' });
-        }
-    });
-});*/
-/*app.post('/register', (req, res) => {
-  const { nume, email, parola, tara, invitationCode } = req.body;
-
-  function generateUniqueToken() {
-    const { v4: uuidv4 } = require('uuid');
-    return uuidv4();
-  }
-
-  const confirmationToken = generateUniqueToken();
-  let bonusCredits = 0;
-
-  if (invitationCode) {
-      // Verifică dacă codul de invitație este valid și obține bonusul de credite
-      const sqlCheckCode = 'SELECT credite FROM users WHERE invitationCode = ?';
-      db.query(sqlCheckCode, [invitationCode], (err, rows) => {
-          if (!err && rows.length > 0) {
-              // Dacă codul de invitație este găsit și valid, adaugă creditele bonus
-              bonusCredits = 100;
-              const invitedUserId = rows[0].ID;
-              const sqlUpdateInviterCredits = 'UPDATE users SET credite = credite + ? WHERE ID = ?';
-              db.query(sqlUpdateInviterCredits, [100, invitedUserId], (err, result) => {
-                  if (err) {
-                      console.error('Eroare la actualizarea creditele invitatului:', err);
-                  }
-              });
-          }
-          insertUser();
-      });
-  } else {
-      insertUser();
-  }
-
-  function insertUser() {
-      const sql = 'INSERT INTO users (nume, email, parola, tara, confirmationToken, invitationCode, credite) VALUES (?, ?, ?, ?, ?, ?, ?)';
-      db.query(sql, [nume, email, parola, tara, confirmationToken, invitationCode, 100 + bonusCredits], (err, result) => {
-          if (err) {
-              console.error('Eroare la inserarea datelor în baza de date:', err);
-              res.status(500).json({ message: 'Eroare la înregistrare.' });
-          } else {
-              console.log('Utilizatorul a fost înregistrat cu succes!');
-              sendConfirmationEmail(email, confirmationToken);
-              res.status(200).json({ message: 'Înregistrare reușită.', bonusCredits });
-          }
-      });
-  }
-});*/
 app.post('/register', (req, res) => {
   const { nume, email, parola, tara, invitationCode } = req.body;
 
@@ -436,32 +339,7 @@ app.post('/submisions/:microtask_id', upload.single('submission_images'), (req, 
     return res.json({ message: 'Submision a fost înregistrat cu succes.' });
   });
 });
-/*
-  app.post("/createmicrotasks", (req, res) => {
-    const { titlu, descriere, credite,credite1,timp,categorie, tara } = req.body;
-  
-    // Verificăm dacă utilizatorul este autentificat
-    if (!req.session.userId) {
-      return res.status(401).json({ message: "Utilizatorul nu este autentificat." });
-    }
-  
-    // Preia ID-ul utilizatorului autentificat din sesiune
-    const user_id = req.session.userId;
 
-    let pozitii=credite/credite1;
-    
-    // Exemplu de query pentru inserarea datelor în baza de date
-    const sql = 'INSERT INTO microtasks (titlu, descriere, credite,credite1,timp,pozitii,categorie, user_id, is_approved, tara) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?)';
-    db.query(sql, [titlu, descriere, credite,credite1,timp,pozitii,categorie, user_id, 0, tara], (err, result) => {
-      if (err) {
-        console.error('Eroare la inserarea datelor în baza de date:', err);
-        res.status(500).json({ message: 'Eroare la adăugarea microtask-ului.' });
-      } else {
-        console.log('Microtask-ul a fost adăugat cu succes!');
-        res.status(200).json({ message: 'Microtask adăugat cu succes.' });
-      }
-    });
-  });*/
   app.post("/createmicrotasks", (req, res) => {
     const { titlu, descriere, credite, credite1, timp, categorie, tara } = req.body;
   
@@ -571,146 +449,7 @@ app.get('/getUserId', (req, res) => {
       return res.json(data);
     });
   });
-  /*app.post('/updateSubmissionStatus/:submissionId', (req, res) => {
-    const submissionId = req.params.submissionId;
-    const newStatus = req.body.newStatus;
-    
-    try {
-      // Aici vom efectua actualizarea în baza de date
-      const sql = "UPDATE submissions SET is_approved = ? WHERE ID = ?";
-      db.query(sql, [newStatus, submissionId], (err, result) => {
-        if (err) {
-          console.error('Error updating submission status:', err);
-          return res.status(500).json({ error: 'An error occurred while updating submission status' });
-        }
-  
-        // Verificăm dacă rândurile au fost afectate (actualizate) cu succes
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ error: 'Submission not found' });
-        }
-  
-        res.status(200).json({ message: 'Submission status updated successfully' });
-      });
-    } catch (error) {
-      console.error('Error updating submission status:', error);
-      res.status(500).json({ error: 'An error occurred while updating submission status' });
-    }
-  });*//*
-  app.post('/updateSubmissionStatus/:submissionId', (req, res) => {
-    const submissionId = req.params.submissionId;
-    const newStatus = req.body.newStatus;
-  
-    try {
-      // Aici vom efectua actualizarea în baza de date
-      const sqlUpdateSubmission = "UPDATE submissions SET is_approved = ? WHERE ID = ?";
-      db.query(sqlUpdateSubmission, [newStatus, submissionId], (err, result) => {
-        if (err) {
-          console.error('Error updating submission status:', err);
-          return res.status(500).json({ error: 'An error occurred while updating submission status' });
-        }
-  
-        // Verificăm dacă rândurile au fost afectate (actualizate) cu succes
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ error: 'Submission not found' });
-        }
-  
-        // Dacă statusul nou este 1 (aprobat), actualizăm pozitii_aprobate în tabela microtasks
-        if (newStatus === 1) {
-          const sqlUpdateMicrotask = "UPDATE microtasks SET pozitii_aprobate = pozitii_aprobate + 1 WHERE ID = (SELECT microtask_id FROM submissions WHERE ID = ?)";
-          db.query(sqlUpdateMicrotask, [submissionId], (microtaskErr, microtaskResult) => {
-            if (microtaskErr) {
-              console.error('Error updating pozitii_aprobate:', microtaskErr);
-            }
-          });
-        }
-  
-        // Verificăm dacă trebuie să actualizăm is_approved în tabela microtasks
-        const sqlCheckMicrotask = "SELECT pozitii, pozitii_aprobate FROM microtasks WHERE ID = (SELECT microtask_id FROM submissions WHERE ID = ?)";
-        db.query(sqlCheckMicrotask, [submissionId], (checkErr, checkResult) => {
-          if (!checkErr && checkResult.length > 0) {
-            const { pozitii, pozitii_aprobate } = checkResult[0];
-            if (pozitii === pozitii_aprobate) {
-              const sqlUpdateMicrotaskApproved = "UPDATE microtasks SET is_approved = 1 WHERE ID = ?";
-              db.query(sqlUpdateMicrotaskApproved, [checkResult[0].ID], (updateErr) => {
-                if (updateErr) {
-                  console.error('Error updating is_approved in microtasks:', updateErr);
-                }
-              });
-            }
-          }
-        });
-  
-        res.status(200).json({ message: 'Submission status updated successfully' });
-      });
-    } catch (error) {
-      console.error('Error updating submission status:', error);
-      res.status(500).json({ error: 'An error occurred while updating submission status' });
-    }
-  });
-  */
-/*  app.post('/updateSubmissionStatus/:submissionId', (req, res) => {
-    const submissionId = req.params.submissionId;
-    const newStatus = req.body.newStatus;
-  
-    try {
-      // Aici vom efectua actualizarea în baza de date
-      const sqlUpdateSubmission = "UPDATE submissions SET is_approved = ? WHERE ID = ?";
-      db.query(sqlUpdateSubmission, [newStatus, submissionId], async (err, result) => {
-        if (err) {
-          console.error('Error updating submission status:', err);
-          return res.status(500).json({ error: 'An error occurred while updating submission status' });
-        }
-  
-        // Verificăm dacă rândurile au fost afectate (actualizate) cu succes
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ error: 'Submission not found' });
-        }
-  
-        // Dacă statusul nou este 1 (aprobat), actualizăm pozitii_aprobate în tabela microtasks
-        if (newStatus === 1) {
-          const sqlUpdateMicrotask = "UPDATE microtasks SET pozitii_aprobate = pozitii_aprobate + 1 WHERE ID = (SELECT microtask_id FROM submissions WHERE ID = ?)";
-          db.query(sqlUpdateMicrotask, [submissionId], async (microtaskErr, microtaskResult) => {
-            if (microtaskErr) {
-              console.error('Error updating pozitii_aprobate:', microtaskErr);
-            } else {
-              // Obține id-ul microtask-ului pentru a putea actualiza creditele
-              const sqlGetMicrotask = "SELECT microtask_id FROM submissions WHERE ID = ?";
-              db.query(sqlGetMicrotask, [submissionId], async (getMicrotaskErr, getMicrotaskResult) => {
-                if (!getMicrotaskErr && getMicrotaskResult.length > 0) {
-                  const microtaskId = getMicrotaskResult[0].microtask_id;
-  
-                  // Obține numărul de credite din microtasks pentru microtask-ul curent
-                  const sqlGetMicrotaskCredits = "SELECT credite1 FROM microtasks WHERE ID = ?";
-                  db.query(sqlGetMicrotaskCredits, [microtaskId], async (getCreditsErr, getCreditsResult) => {
-                    if (!getCreditsErr && getCreditsResult.length > 0) {
-                      const microtaskCredits = getCreditsResult[0].credite1;
-  
-                      // Actualizează creditele utilizatorului cu numărul de credite din microtask
-                      const userId = req.session.userId; // Presupunând că aveți o funcție de autentificare care setează req.user
-                      const sqlUpdateUserCredits = "UPDATE users SET credite = credite + ? WHERE id = ?";
-                      db.query(sqlUpdateUserCredits, [microtaskCredits, userId], (updateCreditsErr) => {
-                        if (updateCreditsErr) {
-                          console.error('Error updating user credits:', updateCreditsErr);
-                        }
-                      });
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
-  
-        // Restul codului rămâne neschimbat
-        // ...
-  
-        res.status(200).json({ message: 'Submission status updated successfully' });
-      });
-    } catch (error) {
-      console.error('Error updating submission status:', error);
-      res.status(500).json({ error: 'An error occurred while updating submission status' });
-    }
-  });*/
+ 
   app.post('/updateSubmissionStatus/:submissionId', (req, res) => {
     const submissionId = req.params.submissionId;
     const newStatus = req.body.newStatus;
@@ -771,8 +510,7 @@ app.get('/getUserId', (req, res) => {
           });
         }
   
-        // Restul codului rămâne neschimbat
-        // ...
+        
   
         res.status(200).json({ message: 'Submission status updated successfully' });
       });
