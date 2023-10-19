@@ -222,8 +222,8 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'wealthwisetips@gmail.com',
-        pass: 'Seat.zetor1#'
+        user: '',
+        pass: ''
     }
 });
 
